@@ -1,0 +1,513 @@
+{
+    "source": {
+        "urls": [
+            {
+                "headers": {
+                    "Cookie": "engelundvoelkersconfig=EUR-sqm.m-false-DE-de;"
+                },
+                "url": "https:\/\/www.engelvoelkers.com\/en\/search\/?startIndex=[INDEX]&businessArea=residential&sortField=sortPrice&q=&sortOrder=DESC&facets=bsnssr%3Aresidential%3Bcntry%3Aspain%3Brgn%3Amajorca%3Btyp%3Abuy%3B&pageSize=12",
+                "meta": {
+                    "type": "sale_strict",
+                    "location_ids": [
+                        2
+                    ]
+                }
+            },
+            {
+                "headers": {
+                    "Cookie": "engelundvoelkersconfig=EUR-sqm.m-false-DE-de;"
+                },
+                "url": "https:\/\/www.engelvoelkers.com\/en\/search\/?startIndex=[INDEX]&businessArea=residential&sortField=sortPrice&q=&sortOrder=DESC&facets=bsnssr%3Aresidential%3Bcntry%3Aspain%3Brgn%3Amajorca%3Btyp%3Arent%3B&pageSize=12",
+                "meta": {
+                    "type": "rent_strict",
+                    "location_ids": [
+                        2
+                    ]
+                }
+            }
+        ],
+        "index_type": "offset",
+        "per_page": "10",
+        "index_start": "0",
+        "links": {
+            "method": "multiple",
+            "selector": "div.ev-search-results div.col-lg-4 a.ev-property-container:not(.ev-banner-widget)",
+            "item": {
+                "key": "link",
+                "retrieve": {
+                    "method": "attribute:href"
+                }
+            }
+        }
+    },
+    "ocr": {
+        "pipeline": [
+            {"action": "rotate","params": [45]},
+            {"action":"crop", "params":[0, 350, 0, 0]},
+            {"action": "contrast","params": [5,10]},
+            {"action":"pictus", "params": {"palette":[{"color":[255,255,255],"max_distance":0}],"cell_size": 1,"cells_to_commmit":1,"cells_commit_buffer": 5,"postactions": []}},
+            {"action":"frame", "params":[200, 200, "black"]},
+            {"action":"invert", "params":[]}
+        ],
+        "mapping": [
+            {"a": "SOLD","b": "sold"},
+            {"a": "sold by us","b": "sold"},
+            {"a": "RESERVED","b": "reserved"}
+        ]
+    },
+    "source_item": {
+        "headers": {
+            "Cookie": "engelundvoelkersconfig=EUR-sqm.m-false-DE-de;"
+        },
+        "estate": [
+            {
+                "method": "batch",
+                "selector": "ul.ev-exposee-detail-facts li",
+                "key_submask": "label",
+                "value_submask": "span",
+                "mapping": [
+                    {
+                        "dom_key": "E&V ID",
+                        "item": {
+                            "key": "ref",
+                            "retrieve": {
+                                "method": "plaintext"
+                            }
+                        }
+                    },
+                    {
+                        "dom_key": "Rooms",
+                        "item": {
+                            "key": "rooms",
+                            "retrieve": {
+                                "method": "plaintext"
+                            }
+                        }
+                    },
+                    {
+                        "dom_key": "Bedrooms",
+                        "item": {
+                            "key": "_bedrooms_1",
+                            "retrieve": {
+                                "method": "plaintext"
+                            }
+                        }
+                    },
+                    {
+                        "dom_key": "Bathrooms",
+                        "item": {
+                            "key": "bathrooms",
+                            "retrieve": {
+                                "method": "plaintext"
+                            }
+                        }
+                    },
+                    {
+                        "dom_key": "Property subtype",
+                        "item": {
+                            "key": "_subtype1",
+                            "retrieve": {
+                                "method": "plaintext"
+                            }
+                        }
+                    },
+                    {
+                        "dom_key": "Year of Construction",
+                        "item": {
+                            "key": "construction_year",
+                            "retrieve": {
+                                "method": "plaintext"
+                            }
+                        }
+                    },
+                    {
+                        "dom_key": "Garage",
+                        "item": {
+                            "key": "garage",
+                            "retrieve": {
+                                "method": "plaintext"
+                            }
+                        }
+                    },
+                    {
+                        "dom_key": "Heating",
+                        "item": {
+                            "key": "heating",
+                            "retrieve": {
+                                "method": "plaintext"
+                            }
+                        }
+                    },
+                    {
+                        "dom_key": "Floor type",
+                        "item": {
+                            "key": "floor_type",
+                            "retrieve": {
+                                "method": "plaintext"
+                            }
+                        }
+                    },
+                    {
+                        "dom_key": "Terrace",
+                        "item": {
+                            "key": "terrace_area",
+                            "retrieve": {
+                                "method": "plaintext"
+                            }
+                        }
+                    },
+                    {
+                        "dom_key": "Condition",
+                        "item": {
+                            "key": "condition",
+                            "retrieve": {
+                                "method": "plaintext"
+                            }
+                        }
+                    },
+                    {
+                        "dom_key": "Fire type",
+                        "item": {
+                            "key": "fire_type",
+                            "retrieve": {
+                                "method": "plaintext"
+                            }
+                        }
+                    },
+                    {
+                        "dom_key": "Parking",
+                        "item": {
+                            "key": "parking",
+                            "retrieve": {
+                                "method": "plaintext"
+                            }
+                        }
+                    },
+                    {
+                        "dom_key": "Energy efficiency rating",
+                        "item": {
+                            "key": "energy_rating",
+                            "retrieve": {
+                                "method": "plaintext"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "method": "batch",
+                "selector": "div.ev-exposee-content.ev-key-facts div.ev-key-fact",
+                "key_submask": "div.ev-key-fact-title",
+                "value_submask": "div.ev-key-fact-value",
+                "key_item": {
+                    "key": "data",
+                    "retrieve": {
+                        "method": "plaintext",
+                        "unicode_filter": [
+                            "Zs"
+                        ]
+                    }
+                },
+                "mapping": [
+                    {
+                        "dom_key": "Bedrooms",
+                        "item": {
+                            "key": "_bedrooms_2",
+                            "retrieve": {
+                                "method": "plaintext",
+                                "expression": [
+                                    "\/(\\d{1,2})\/",
+                                    [
+                                        1
+                                    ],
+                                    ""
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "dom_key": "Livingareaapprox.",
+                        "item": {
+                            "key": "living_area",
+                            "retrieve": {
+                                "method": "plaintext",
+                                "expression": [
+                                    "\/(.+)\/",
+                                    [
+                                        1
+                                    ],
+                                    ""
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "source": "deps_left",
+                "deps": "_bedrooms_1,_bedrooms_2",
+                "item": {
+                    "key": "bedrooms",
+                    "retrieve": {
+                        "method": "string"
+                    }
+                }
+            },
+            {
+                "method": "multiple",
+                "multi_join": "; ",
+                "selector": "h2:contains('features') + ul.ev-exposee-content.ev-exposee-detail-facts li li  span",
+                "item": {
+                    "key": "features",
+                    "retrieve": {
+                        "method": "plaintext"
+                    }
+                }
+            },
+            {
+                "method": "single",
+                "selector": "link[rel=\"canonical\"]",
+                "item": {
+                    "key": "uid",
+                    "retrieve": {
+                        "method": "attribute:href",
+                        "expression": [
+                            "\/(\\d+\\.\\d+)\/",
+                            [
+                                1
+                            ],
+                            ""
+                        ]
+                    }
+                }
+            },
+            {
+                "method": "single",
+                "selector": "div.ev-key-facts div.ev-key-fact span[itemprop='price']",
+                "item": {
+                    "key": "price",
+                    "retrieve": {
+                        "method": "attribute:content"
+                    }
+                }
+            },
+            {
+                "method": "single",
+                "selector": "ul.ev-exposee-detail-facts li label:contains('Total surface approx.') +span",
+                "item": {
+                    "key": "total_area",
+                    "retrieve": {
+                        "method": "plaintext"
+                    }
+                }
+            },
+            {
+                "method": "single",
+                "selector": "ul.ev-exposee-detail-facts li label:contains('Plot surface approx.') +span",
+                "item": {
+                    "key": "plot_area",
+                    "retrieve": {
+                        "method": "plaintext"
+                    }
+                }
+            },
+            {
+                "method": "single",
+                "selector": "div.ev-key-facts div.ev-key-fact span[itemprop='price']",
+                "item": {
+                    "key": "rent_price",
+                    "retrieve": {
+                        "method": "attribute:content"
+                    }
+                }
+            },
+            {
+                "method": "single",
+                "selector": "p[itemprop='description']",
+                "item": {
+                    "key": "description",
+                    "retrieve": {
+                        "method": "plaintext"
+                    }
+                }
+            },
+            {
+                "method": "single",
+                "selector": "h1",
+                "item": {
+                    "key": "title",
+                    "retrieve": {
+                        "method": "plaintext"
+                    }
+                }
+            },
+            {
+                "method": "single",
+                "selector": "div.ev-exposee-subtitle",
+                "item": {
+                    "key": "location",
+                    "retrieve": {
+                        "method": "regexp",
+                        "expression": [
+                            "\/\\|(.*)<\/div>\/",
+                            [
+                                1
+                            ],
+                            ""
+                        ]
+                    }
+                }
+            },
+            {
+                "method": "single",
+                "selector": "div.ev-exposee-subtitle",
+                "item": {
+                    "key": "_subtype2",
+                    "retrieve": {
+                        "method": "regexp",
+                        "expression": [
+                            "\/>(.*)\\|\/",
+                            [
+                                1
+                            ],
+                            ""
+                        ]
+                    }
+                }
+            },
+            {
+                "method": "anko: estate.GetString(\"_subtype1\") + \" \" + estate.GetString(\"_subtype2\")",
+                "source": "deps",
+                "deps": "_subtype1,_subtype2",
+                "item": {
+                    "key": "subtype",
+                    "retrieve": {
+                        "method": "string"
+                    }
+                }
+            },
+            {
+                "method": "single",
+                "selector": "h1",
+                "item": {
+                    "key": "status",
+                    "retrieve": {
+                        "method": "regexp",
+                        "expression": [
+                            "\/\\*+\\s*(.*?)\\s*\\*+\/",
+                            [
+                                1
+                            ],
+                            ""
+                        ],
+                        "mapping": [
+                            {
+                                "a": "vendido",
+                                "b": "sold"
+                            },
+                            {
+                                "a": "sold",
+                                "b": "sold"
+                            },
+                            {
+                                "a": "reserved",
+                                "b": "reserved"
+                            }
+                        ],
+                        "mapping_default": ""
+                    }
+                }
+            },
+            {
+                "method": "single",
+                "selector": "h1",
+                "item": {
+                    "key": "rent_status",
+                    "retrieve": {
+                        "method": "regexp",
+                        "expression": [
+                            "\/\\*+\\s*(.*?)\\s*\\*+\/",
+                            [
+                                1
+                            ],
+                            ""
+                        ],
+                        "mapping": [
+                            {
+                                "a": "reserved",
+                                "b": "reserved"
+                            },
+                            {
+                                "a": "rented",
+                                "b": "rented"
+                            }
+                        ],
+                        "mapping_default": ""
+                    }
+                }
+            },
+            {
+                "method": "single",
+                "selector": "div.ev-exposee-detail div.ev-exposee-contact-details-name span",
+                "item": {
+                    "key": "_company",
+                    "retrieve": {
+                        "method": "plaintext"
+                    }
+                }
+            },
+            {
+                "method": "single",
+                "selector": ".ev-exposee-contact-details-content li[itemprop='member'] span",
+                "item": {
+                    "key": "_listing_agent",
+                    "retrieve": {
+                        "method": "plaintext"
+                    }
+                }
+            },
+            {
+                "method": "single",
+                "selector": "li[itemtype='https:\/\/schema.org\/PostalAddress']",
+                "item": {
+                    "key": "_contacts",
+                    "retrieve": {
+                        "method": "regexp",
+                        "expression": [
+                            "\/content=\"(.*?)\".*?<span.*?>(.*?)<\\\/span>.*?<span.*?>(.*?)<\\\/span\/si",
+                            [
+                                1,
+                                2,
+                                3
+                            ],
+                            "\n"
+                        ]
+                    }
+                }
+            },
+            {
+                "method": "multiple",
+                "selector": "a.ev-image-gallery-image-link",
+                "item": {
+                    "key": "_test_image",
+                    "retrieve": {
+                        "method": "attribute:href"
+                    }
+                }
+            }
+        ],
+        "photo": {
+            "photos": {
+                "method": "anko: str = import(\"strings\")\n c = make([]string, 1)\n c = estate.GetArray(\"_test_image\")\nfor j = 0; j < len(c); j++ {if (str.HasPrefix(c[j], \"https:\/\/www.engelvoelkers.com\")){c[j] = c[j]} else{c[j] = \"https:\/\/www.engelvoelkers.com\" + c[j]}}\nc",
+                "source": "deps",
+                "deps": "_test_image",
+                "item": {
+                    "key": "photo",
+                    "retrieve": {
+                        "method": "array"
+                    }
+                }
+            }
+        }
+    }
+}
